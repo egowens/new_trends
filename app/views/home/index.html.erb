@@ -1,0 +1,12 @@
+<div class = "jumbotron">
+  <h1>Custom Collections</h1>
+  <div class="well">
+    <p> Current collections: <%= @collections.count %></p>
+    <% @collections.each do |collection| %>
+      <ul>
+        <li><%= collection.title %></li>
+      </ul>
+    <% end %>
+  </div>
+    <%= link_to "Create new collection", new_collection_path, :class => "btn btn-lg btn-primary" %>
+</div>
