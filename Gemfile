@@ -6,14 +6,13 @@ ruby '2.0.0'
 
 gem 'rails', '4.1.6'
 
+gem 'bootstrap-sass', '3.1.1'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
-#gem "less-rails-bootstrap"
-gem 'bootstrap-sass', '3.1.1'
 gem 'shopify_app'
 gem 'momentjs-rails', '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
@@ -23,7 +22,7 @@ group :assets do
 end
 
 group :development do
-gem 'spring'
+  gem 'spring'
 end
 
 group :development, :test do
@@ -37,5 +36,5 @@ end
 
 
 group :doc do
-gem 'sdoc', '~> 0.4.0'
+  gem 'sdoc', '~> 0.4.0'
 end

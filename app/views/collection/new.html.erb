@@ -4,6 +4,7 @@
     <div class="well">
 
       <%= form_for @collection, url: '/collection' do |f| %>
+        <%= render 'shared/collection_error' %>
 
         <div class="form-group">
           <%= f.label :title, "Collection Name" %>
