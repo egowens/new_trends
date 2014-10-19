@@ -8,5 +8,6 @@
       </ul>
     <% end %>
   </div>
-    <%= link_to "Create new collection", new_collection_path, :class => "btn btn-lg btn-primary" %>
+  <%= link_to "Create new collection", new_collection_path, :class => "btn btn-lg btn-primary", :id => "new_collection_button"%>
+  <%= link_to "Create new 'Live' collection", new_live_collection_path, :class => "btn btn-lg btn-success", :id => "new_live_collection_button" %>
 </div>

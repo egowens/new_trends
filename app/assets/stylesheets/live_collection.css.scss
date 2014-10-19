@@ -1,3 +1,15 @@
-// Place all the styles related to the live_collection controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "bootstrap";
+
+/*Live Collection Form*/
+#live_num{
+  width: 45%;
+}
+
+#live_type{
+  width: 45%;
+  margin-left: 9%;
+}
+
+#live_button{
+  margin-top: 15px;
+}

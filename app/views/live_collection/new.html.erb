@@ -3,12 +3,12 @@
     <h1>Create a new Live Collection</h1>
     <div class="well">
 
-      <%= form_for @live, url: '/live_collection' do |f| %>
+      <%= form_for @live_collection, url: '/live_collection' do |f| %>
         <%= render 'shared/live_errors' %>
 
         <div class="form-group">
           <%= f.label :shop_url, "Your shop" %>
-          <%= f.text_field :shop_url, class: "form-control" %>
+          <%= f.text_field :shop_url, :value => shop_session.url, :readonly => true,  class: "form-control" %>
         </div>
 
         <div class="form-group">
@@ -16,13 +16,13 @@
           <%= f.text_field :title, class: "form-control" %>
         </div>
 
-        <div class="input-group date", id = "livetime" >
-          <p>Create collection with products created in the last:</p>
-        <%= f.number_field :time_number, :class => "form-control" %>
-        <%= f.select :time_type, :options => {"hours" => "hours", "days" => "days", "months" => "months", "years" => "years"}, :class => "form-control" %>
+        <div class="form-inline", id = "livetime" >
+          <%= f.label :time_number, "Create collection from products created in the last:" %>
+          <%= f.number_field :time_number, :class => "form-control", :id => "live_num" %>
+          <%= f.select :time_type, options_for_select([['days','days'],['weeks','weeks'],['months','months'],['years','years']]), {},  :class => "form-control", :id => "live_type" %>
         </div>
 
-        <%= f.submit "Create Live Collection", class: "btn btn-lg btn-primary" %>
+        <%= f.submit "Create Live Collection", class: "btn btn-lg btn-primary", id: "live_button" %>
       <% end %>
 
     </div>
