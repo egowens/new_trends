@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'live_collection/new'
+
+  get 'live_collection/create'
+
   #Sessions routes
   controller :sessions do
     get 'login' => :new

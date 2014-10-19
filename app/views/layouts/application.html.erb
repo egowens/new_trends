@@ -22,7 +22,9 @@
 </head>
 
 <body>
-  <%= render 'layouts/header' %>
+  <% if shop_session != nil %>
+    <%= render 'layouts/header' %>
+  <% end %>
   <div class="container">
     <% flash.each do |type, message| %>
       <div class="alert alert-<%= type %>"><%= message %></div>

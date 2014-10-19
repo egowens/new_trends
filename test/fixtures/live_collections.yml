@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shop_url: MyString
+  title: MyString
+  created_after: 2014-10-19 08:44:22
+
+two:
+  shop_url: MyString
+  title: MyString
+  created_after: 2014-10-19 08:44:22
