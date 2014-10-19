@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141017070958) do
+ActiveRecord::Schema.define(version: 20141019064422) do
 
   create_table "collections", force: true do |t|
     t.string   "title"
     t.datetime "published_at_min"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "live_collections", force: true do |t|
+    t.string   "shop_url"
+    t.string   "title"
+    t.integer  "time_number"
+    t.string   "time_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

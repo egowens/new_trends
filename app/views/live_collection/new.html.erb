@@ -3,7 +3,7 @@
     <h1>Create a new Live Collection</h1>
     <div class="well">
 
-      <%= form_for @live do |f| %>
+      <%= form_for @live, url: '/live_collection' do |f| %>
         <%= render 'shared/live_errors' %>
 
         <div class="form-group">
@@ -17,8 +17,9 @@
         </div>
 
         <div class="input-group date", id = "livetime" >
-        <%= f.select :time_number, :class => "form-control" %>
-        <%= f.select :time_type, :class => "form-control" %>
+          <p>Create collection with products created in the last:</p>
+        <%= f.number_field :time_number, :class => "form-control" %>
+        <%= f.select :time_type, :options => {"hours" => "hours", "days" => "days", "months" => "months", "years" => "years"}, :class => "form-control" %>
         </div>
 
         <%= f.submit "Create Live Collection", class: "btn btn-lg btn-primary" %>

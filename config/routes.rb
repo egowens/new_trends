@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   #Collection routes
   resources :collection
 
+  #Live collection routes
+  resources :live_collection
+
   #Set root path
   root :to => 'home#index'
 

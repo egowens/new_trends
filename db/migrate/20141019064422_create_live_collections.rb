@@ -4,7 +4,7 @@ class CreateLiveCollections < ActiveRecord::Migration
       t.string :shop_url
       t.string :title
       t.integer :time_number
-      t.string :created_after
+      t.string :time_type
 
       t.timestamps
     end
