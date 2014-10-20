@@ -1,4 +1,9 @@
 # Use this file to easily define all of your cron jobs.
+
+every 1.hours do
+  runner "LiveCollection.update"
+end
+
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
