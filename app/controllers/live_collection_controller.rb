@@ -29,7 +29,7 @@ class LiveCollectionController < ApplicationController
     if @included_products != nil
       #save the collection to shopify
       @shop_live_collection.save
-      @live_collection.shop_id = shop_session.id
+      @live_collection.shop_id = ShopifyAPI::Shop.current.id
       @live_collection.collection_id = @shop_live_collection.id
       if @live_collection.save
         flash[:success] = "New Live Collection Created!"

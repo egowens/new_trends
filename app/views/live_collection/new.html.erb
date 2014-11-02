@@ -8,7 +8,7 @@
 
         <div class="form-group">
           <%= f.label :shop_url, "Your shop" %>
-          <%= f.text_field :shop_url, :value => shop_session.url, :readonly => true,  class: "form-control" %>
+          <%= f.text_field :shop_url, :value => "#{shop_session.url}", :readonly => true,  class: "form-control" %>
         </div>
 
         <div class="form-group">

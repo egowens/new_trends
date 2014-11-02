@@ -11,4 +11,8 @@ class Shop < ActiveRecord::Base
     shop = Shop.find(id)
     ShopifyAPI::Session.new(shop.domain, shop.token)
   end
+
+  def shopify_api_path
+    "https://#{ShopifyApp.configuration.api_key}:#{self.token}@#{self.domain}/admin"
+  end
 end

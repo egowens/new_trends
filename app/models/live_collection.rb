@@ -7,12 +7,12 @@ class LiveCollection < ActiveRecord::Base
   validates :time_type, presence: true
 
   def update
-    @lives = LiveCollection.all
-    @lives.each do |live|
+    lives = LiveCollection.all
+    lives.each do |live|
 
       #calculate published_at_min for products
-      num = @live.time_number
-      case @live.time_type
+      num = live.time_number
+      case live.time_type
         when "days"
           date = Time.now - num.days
         when "weeks"
@@ -24,26 +24,29 @@ class LiveCollection < ActiveRecord::Base
       end
 
       #Get the shop from the saved data
-      ShopifyAPI::Base.site = @lives.shop_url
-      @collection = ShopifyAPI::CustomCollection.where(:id => live.collection_id)
-      @collect = ShopifyAPI::Collect.where(:collection_id => live.collection_id)
+      shop = Shop.find_by(:domain => live.shop_url)
+      ShopifyAPI::Session.new(shop.domain, shop.token)
+      ShopifyAPI::Base.site = shop.shopify_api_path
+      #collection = ShopifyAPI::CustomCollection.where(:id => live.collection_id)
+      collects = ShopifyAPI::Collect.where(:collection_id => live.collection_id)
 
       #clear out old products
-      @collect.each do |col|
-        prod = ShopifyAPI::Product.where(:id => col.product_id)
+      collects.each do |col|
+        prod = ShopifyAPI::Product.find(col.product_id)
         if prod.published_at < date
-          col.delete
+          ShopifyAPI::Collect.delete(col.id)
         end
       end
 
       #Add the newest products
-      @products = ShopifyAPI::Products.where(:published_at_min => date)
-      @products.each do |allprod|
-        new_collect = ShopifyAPI::Collect.where(:collection_id => live.collection_id, :product_id => allprod.id)
-        new_collect ||= ShopifyAPI::Collect.new(:collection_id => live.collection_id, :product_id => allprod.id)
-        new_collect.save
+      products = ShopifyAPI::Product.where(:published_at_min => date)
+      products.each do |prod|
+        exist_test = ShopifyAPI::Collect.where(:collection_id => live.collection_id, :product_id => prod.id).count
+        if exist_test == 0
+          new_collect = ShopifyAPI::Collect.new(:collection_id => live.collection_id, :product_id => prod.id)
+          new_collect.save!
+        end
       end
     end
   end
-
 end
