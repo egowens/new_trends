@@ -6,7 +6,7 @@ class LiveCollection < ActiveRecord::Base
   validates :time_number, presence: true
   validates :time_type, presence: true
 
-  def update
+  def self.update
     lives = LiveCollection.all
     lives.each do |live|
 
