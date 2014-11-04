@@ -9,6 +9,7 @@ class LiveCollection < ActiveRecord::Base
   def self.update
     lives = LiveCollection.all
     lives.each do |live|
+      #set the deleted flag to nil
 
       #calculate published_at_min for products
       num = live.time_number
@@ -23,11 +24,19 @@ class LiveCollection < ActiveRecord::Base
           date = Time.now - num.years
       end
 
-      #Get the shop from the saved data
+      #Get the shop from the saved data and start a new session
       shop = Shop.find_by(:domain => live.shop_url)
       ShopifyAPI::Session.new(shop.domain, shop.token)
       ShopifyAPI::Base.site = shop.shopify_api_path
-      #collection = ShopifyAPI::CustomCollection.where(:id => live.collection_id)
+
+      #check if the collection has been deleted on the shopify side
+      begin
+        ShopifyAPI::CustomCollection.find(live.collection_id)
+      rescue ActiveResource::ResourceNotFound
+        live.delete
+        next
+      end
+
       collects = ShopifyAPI::Collect.where(:collection_id => live.collection_id)
 
       #clear out old products
@@ -47,6 +56,10 @@ class LiveCollection < ActiveRecord::Base
           new_collect.save!
         end
       end
+
+      #reset the base site and the deleted flag
+      ShopifyAPI::Base.site = nil
+
     end
   end
 end
