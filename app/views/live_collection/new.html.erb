@@ -7,11 +7,6 @@
         <%= render 'shared/live_errors' %>
 
         <div class="form-group">
-          <%= f.label :shop_url, "Your shop" %>
-          <%= f.text_field :shop_url, :value => "#{shop_session.url}", :readonly => true,  class: "form-control" %>
-        </div>
-
-        <div class="form-group">
           <%= f.label :title, "Collection name" %>
           <%= f.text_field :title, class: "form-control" %>
         </div>
@@ -22,7 +17,7 @@
           <%= f.select :time_type, options_for_select([['days','days'],['weeks','weeks'],['months','months'],['years','years']]), {},  :class => "form-control", :id => "live_type" %>
         </div>
 
-        <%= f.submit "Create Live Collection", class: "btn btn-lg btn-primary", id: "live_button" %>
+        <%= f.submit "Create Live Collection", class: "btn btn-lg btn-success", id: "live_button" %>
       <% end %>
 
     </div>

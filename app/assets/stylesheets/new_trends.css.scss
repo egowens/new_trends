@@ -14,6 +14,29 @@
   padding-right: 0px;
 }
 
+/*Home Index*/
+#home_index_well {
+  background-color: #FDFDFD;
+}
+
+#collect_count {
+  margin-bottom: 5px;
+}
+
+#live_count {
+  border-top: 1px solid #666;
+  padding-top: 8px;
+  margin-bottom: 5px;
+}
+
+#new_collection_button {
+  margin: 10px;
+}
+
+#new_live_collection_button {
+  margin: 10px;
+}
+
 #error_explanation {
   color: #f00;
   ul {
@@ -56,10 +79,3 @@
     text-align: left;
 }
 
-#new_collection_button{
-  margin: 10px;
-}
-
-#new_live_collection_button{
-  margin: 10px;
-}

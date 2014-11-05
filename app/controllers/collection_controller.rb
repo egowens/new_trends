@@ -17,33 +17,43 @@ class CollectionController < ApplicationController
 
   def create
     @collection = Collection.new(mod_params)
-    @shop_collection = ShopifyAPI::CustomCollection.new("title" => @collection.title)
+    @shop_collection = ShopifyAPI::CustomCollection.new(:title => @collection.title)
 
-    #Save new collection to database for validation
-    if @collection.save
 
-      #Save collection to Shopify store
+    #Get applicable products for collection
+    @included_products = ShopifyAPI::Product.where(:published_at_min => @collection.published_at_min)
+
+    if @included_products != nil
+      #save the collection to shopify
       @shop_collection.save
-      flash[:success] = "New Collection Added!"
+      @collection.collection_id = @shop_collection.id
 
-      #Get applicable products for collection
-      @included_products = ShopifyAPI::Product.where(:published_at_min => @collection.published_at_min)
+      #Save new collection to database for validation
+      if @collection.save
+        flash[:success] = "New Collection Created!"
 
-      #Add applicable products to the new collection
-      @included_products.each do |prod|
-        collect = ShopifyAPI::Collect.new("collection_id" => @shop_collection.id, "product_id" => prod.id)
-        collect.save!
+        #Add applicable products to the new collection
+        @included_products.each do |prod|
+          collect = ShopifyAPI::Collect.new("collection_id" => @shop_collection.id, "product_id" => prod.id)
+          collect.save!
+        end
+      else
+        render 'new'
       end
-
-      #Remove the database entry since its just for errors
-      @collection.delete
-
-      #Redirect to root
-      redirect_to '/'
-
-    #if database save doesn't work, render new and show errors
     else
-      render 'new'
+      flash[:alert] = "No Products found"
+    end
+      redirect_to '/'
+  end
+
+  def destroy
+    @collection = Collection.find_by(id: params[:id])
+    begin
+      @shop_col = ShopifyAPI::CustomCollection.find(@collection.collection_id)
+      @shop_col.destroy
+      @collection.destroy
+    rescue ActiveResource::ResourceNotFound
+      @collection.destory
     end
   end
 

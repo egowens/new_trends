@@ -8,6 +8,7 @@ class HomeController < ApplicationController
   end
 
   def index
-    @collections = ShopifyAPI::CustomCollection.all
+    @collections = Collection.all
+    @live_collections = LiveCollection.all
   end
 end

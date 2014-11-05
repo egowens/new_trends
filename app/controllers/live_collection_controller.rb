@@ -8,7 +8,8 @@ class LiveCollectionController < ApplicationController
 
   def create
     @live_collection = LiveCollection.new(live_params)
-    @shop_live_collection = ShopifyAPI::CustomCollection.new("title" => @live_collection.title)
+    @shop_live_collection = ShopifyAPI::CustomCollection.new(:title => @live_collection.title)
+    @shop = ShopifyAPI::Shop.current
 
     #calculate published_at_min for products
     num = @live_collection.time_number
@@ -29,7 +30,8 @@ class LiveCollectionController < ApplicationController
     if @included_products != nil
       #save the collection to shopify
       @shop_live_collection.save
-      @live_collection.shop_id = ShopifyAPI::Shop.current.id
+      @live_collection.shop_id = @shop.id
+      @live_collection.shop_url = @shop.domain
       @live_collection.collection_id = @shop_live_collection.id
       if @live_collection.save
         flash[:success] = "New Live Collection Created!"
@@ -48,9 +50,24 @@ class LiveCollectionController < ApplicationController
       redirect_to '/'
   end
 
+  def destroy
+    @live = LiveCollection.find_by(id: params[:id])
+    begin
+      @shop_col = ShopifyAPI::CustomCollection.find(@live.collection_id)
+      @shop_col.destroy
+      @live.destroy
+    rescue ActiveResource::ResourceNotFound
+      @live.destroy
+    end
+
+    flash[:warning] = "The live collection has been deleted."
+    redirect_to root_url
+
+  end
+
   private
 
   def live_params
-    params.require(:live_collection).permit(:shop_url, :title, :time_number, :time_type)
+    params.require(:live_collection).permit(:title, :time_number, :time_type)
   end
 end

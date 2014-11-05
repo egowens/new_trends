@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20141019064422) do
   create_table "collections", force: true do |t|
     t.string   "title"
     t.datetime "published_at_min"
+    t.integer  "collection_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
