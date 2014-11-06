@@ -43,7 +43,7 @@ class LiveCollectionController < ApplicationController
       @live_collection.collection_id = @shop_live_collection.id
 
       @live_collection.save
-      flash[:success] = "Live Collection '#{@collection.title}' Created!"
+      flash[:success] = "Live Collection '#{@live_collection.title}' Created!"
 
       #get applicable products for collection
       @included_products = ShopifyAPI::Product.where(:published_at_min => date)
