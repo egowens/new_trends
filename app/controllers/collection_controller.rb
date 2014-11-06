@@ -2,15 +2,6 @@ class CollectionController < ApplicationController
 
   around_filter :shopify_session
 
-
-  def index
-    @collections = ShopifyAPI::CustomCollections.all
-  end
-
-  def show
-    @newest = ShopifyAPI::CustomCollection.find(:all, :params => {:limit => 5, :order => "created_at DESC"})
-  end
-
   def new
     @collection = Collection.new
   end
@@ -18,32 +9,43 @@ class CollectionController < ApplicationController
   def create
     @collection = Collection.new(mod_params)
     @shop_collection = ShopifyAPI::CustomCollection.new(:title => @collection.title)
+    @shop = ShopifyAPI::Shop.current
+
+    if @collection.save
+
+      #try saving the collection to Shopify, if it doesn't work, rescue and do validations on local data
+      begin
+        @shop_collection.save
+
+      rescue #stop if there is a problem with saving to the shop
+        flash[:warning] = "Could not save new collection to Shopify"
+        @collection.destroy
+        render 'new'
+        return
+      end
 
 
-    #Get applicable products for collection
-    @included_products = ShopifyAPI::Product.where(:published_at_min => @collection.published_at_min)
-
-    if @included_products != nil
-      #save the collection to shopify
-      @shop_collection.save
+      #Add shopify values and save local data
+      @collection.shop_id = @shop.id
+      @collection.shop_url = @shop.domain
       @collection.collection_id = @shop_collection.id
 
-      #Save new collection to database for validation
-      if @collection.save
-        flash[:success] = "New Collection Created!"
+      @collection.save
+      flash[:success] = "Collection '#{@collection.title}' Created!"
 
-        #Add applicable products to the new collection
-        @included_products.each do |prod|
-          collect = ShopifyAPI::Collect.new("collection_id" => @shop_collection.id, "product_id" => prod.id)
-          collect.save!
-        end
-      else
-        render 'new'
+      #Get applicable products for collection
+      @included_products = ShopifyAPI::Product.where(:published_at_min => @collection.published_at_min)
+
+      #Add applicable products to the new collection
+      @included_products.each do |prod|
+        collect = ShopifyAPI::Collect.new(:collection_id => @shop_collection.id, :product_id => prod.id)
+        collect.save!
       end
-    else
-      flash[:alert] = "No Products found"
-    end
+
       redirect_to '/'
+    else
+      render 'new'
+    end
   end
 
   def destroy
@@ -53,8 +55,12 @@ class CollectionController < ApplicationController
       @shop_col.destroy
       @collection.destroy
     rescue ActiveResource::ResourceNotFound
-      @collection.destory
+      @collection.destroy
     end
+
+    flash[:warning] = "'#{@collection.title}' deleted"
+    redirect_to root_url
+
   end
 
   private

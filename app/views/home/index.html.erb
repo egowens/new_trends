@@ -1,3 +1,4 @@
+<% render 'layouts/embedded_topbar' %>
 <div class = "jumbotron">
   <h2>Recent Product Collections</h2>
   <div class="well" id="home_index_well">
@@ -7,7 +8,7 @@
         <li>
         <%= collection.title %>
         <%= link_to "delete", collection, id: "delete_collection", method: :delete,
-                                          data: { confirm: "Are you sure?" },
+          data: { confirm: "Are you sure you want to delete '#{collection.title}?'" },
                                           title: collection.title %>
         </li>
       </ul>
@@ -19,7 +20,7 @@
         <li>
         <%= live.title %>
         <%= link_to "delete", live, id: "delete_live", method: :delete,
-                                          data: { confirm: "Are you sure?" },
+          data: { confirm: "Are you sure you want to delete '#{live.title}?'" },
                                           title: live.title %>
         </li>
       </ul>

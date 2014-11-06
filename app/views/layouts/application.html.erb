@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+  <script type="text/javascript">
+    ShopifyApp.init({
+      apiKey: "<%= ShopifyApp.configuration.api_key %>",  // Expects: 32 character API key string like ff9b1d04414785029e066f8fd0465d00
+      shopOrigin: "<%= "https://#{ shop_session.url }" if session[:shopify] %>",  // Expects: https://exampleshop.myshopify.com
+      debug: false
+    });
+  </script>
   <title>Shopify Demo App</title>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -22,6 +30,7 @@
 </head>
 
 <body>
+  <%= render 'layouts/embedded_topbar' %>
   <% if shop_session != nil %>
     <%= render 'layouts/navbar' %>
   <% end %>
@@ -34,7 +43,7 @@
       <%= yield %>
     </div>
 
-    <footer>
+    <footer id="main_footer">
       <p>A Shopify app by Gowens Industries</p>
     </footer>
 

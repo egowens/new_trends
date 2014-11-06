@@ -1,13 +1,17 @@
 @import "bootstrap";
 
 /*Live Collection Form*/
+#livetime {
+  display: inline;
+}
+
 #live_num{
   width: 45%;
 }
 
 #live_type{
   width: 45%;
-  margin-left: 9%;
+  float: right;
 }
 
 #live_button{

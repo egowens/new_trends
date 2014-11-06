@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
 
+  before_filter :allow_iframes
   around_filter :shopify_session, :except => 'welcome'
 
   def welcome
@@ -8,7 +9,14 @@ class HomeController < ApplicationController
   end
 
   def index
-    @collections = Collection.all
-    @live_collections = LiveCollection.all
+    @shop = ShopifyAPI::Shop.current
+    @collections = Collection.where(:shop_id => @shop.id)
+    @live_collections = LiveCollection.where(:shop_id => @shop.id)
+  end
+
+  private
+
+  def allow_iframes
+    response.headers.delete('X-Frame-Options')
   end
 end

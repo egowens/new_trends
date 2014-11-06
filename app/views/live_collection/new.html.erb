@@ -7,13 +7,13 @@
         <%= render 'shared/live_errors' %>
 
         <div class="form-group">
-          <%= f.label :title, "Collection name" %>
+          <%= f.label :title, "Collection title" %>
           <%= f.text_field :title, class: "form-control" %>
         </div>
 
         <div class="form-inline", id = "livetime" >
-          <%= f.label :time_number, "Create collection from products created in the last:" %>
-          <%= f.number_field :time_number, :class => "form-control", :id => "live_num" %>
+          <%= f.label :time_number, "Create collection from products created within the last..." %>
+          <%= f.number_field :time_number, :class => "form-control", :id => "live_num", :value => 1%>
           <%= f.select :time_type, options_for_select([['days','days'],['weeks','weeks'],['months','months'],['years','years']]), {},  :class => "form-control", :id => "live_type" %>
         </div>
 
@@ -23,5 +23,3 @@
     </div>
   </div>
 </div>
-
-
