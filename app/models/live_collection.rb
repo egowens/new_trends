@@ -9,8 +9,6 @@ class LiveCollection < ActiveRecord::Base
   def self.update
     lives = LiveCollection.all
     lives.each do |live|
-      #set the deleted flag to nil
-
       #calculate published_at_min for products
       num = live.time_number
       case live.time_type
