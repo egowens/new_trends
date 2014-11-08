@@ -57,6 +57,7 @@ class LiveCollection < ActiveRecord::Base
 
       #reset the base site and update latest run
       live.last_run = Time.now
+      live.save
       ShopifyAPI::Base.site = nil
 
     end
