@@ -41,6 +41,7 @@ class LiveCollectionController < ApplicationController
       @live_collection.shop_id = @shop.id
       @live_collection.shop_url = @shop.domain
       @live_collection.collection_id = @shop_live_collection.id
+      @live_collection.last_run = Time.now
 
       @live_collection.save
       flash[:success] = "Live Collection '#{@live_collection.title}' Created!"

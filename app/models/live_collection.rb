@@ -55,7 +55,8 @@ class LiveCollection < ActiveRecord::Base
         end
       end
 
-      #reset the base site and the deleted flag
+      #reset the base site and update latest run
+      live.last_run = Time.now
       ShopifyAPI::Base.site = nil
 
     end
