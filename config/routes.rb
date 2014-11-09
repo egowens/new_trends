@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   #Live collection routes
   resources :live_collection
 
+  #support page
+  get '/support',   to: 'home#support'
+
   #Set root path
   root :to => 'home#index'
 
