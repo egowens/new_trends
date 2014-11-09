@@ -14,6 +14,9 @@ class HomeController < ApplicationController
     @live_collections = LiveCollection.where(:shop_id => @shop.id)
   end
 
+  def help
+  end
+
   private
 
   def allow_iframes
