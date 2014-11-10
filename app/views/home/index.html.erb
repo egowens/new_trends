@@ -15,7 +15,9 @@
     <% end %>
 
     <p id = "live_count">Live Collections: <%= @live_collections.count %></p>
-    <p id = "live_last_run">Last run: <%= @live_collections[0].last_run %></p>
+    <% if @live_collections[0] != nil %>
+      <p id = "live_last_run">Last run: <%= @live_collections[0].last_run %></p>
+    <% end %>
     <% @live_collections.each do |live| %>
       <ul>
         <li>
