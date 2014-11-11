@@ -1,5 +1,5 @@
 class Collection < ActiveRecord::Base
-  validates :title, presence: true
+  validates :title, presence: true, uniqueness: true
   validates :published_at_min, presence: true
 
   def self.update
