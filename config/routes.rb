@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   root :to => 'home#index'
 
   #redirect all unknown paths to root
-  match "*path" => redirect("/")
+  get "*path" => redirect("/")
 end
